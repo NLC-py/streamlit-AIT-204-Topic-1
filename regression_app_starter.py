@@ -27,7 +27,7 @@ from plotly.subplots import make_subplots
 
 st.set_page_config(
     page_title="Regression Analysis App",
-    page_icon="����",
+    page_icon="☆",
     layout="wide"
 )
 
@@ -64,7 +64,7 @@ def generate_synthetic_data(n_samples, noise_level, data_type, random_seed):
         y_true = 2 * X.flatten() + 1
 
     elif data_type == 'polynomial':
-        # Quadratic: y = 0.5x�� - 2x + 5
+        # Quadratic: y = 0.5x^2 - 2x + 5
         y_true = 0.5 * (X.flatten() ** 2) - 2 * X.flatten() + 5
 
     elif data_type == 'sinusoidal':
@@ -98,7 +98,7 @@ class LinearRegression:
         Initialize the model.
 
         Args:
-            learning_rate: Step size for gradient descent (��)
+            learning_rate: Step size for gradient descent
             n_iterations: Number of training iterations
         """
         self.learning_rate = learning_rate
@@ -221,8 +221,8 @@ def compute_metrics(y_true, y_pred):
     # Mean Absolute Error: MAE = (1/n) * sum(|y - y_pred|)
     mae = None  # REPLACE THIS
 
-    # R�� Score (Coefficient of Determination)
-    # R�� = 1 - (SS_res / SS_tot)
+    # R² Score (Coefficient of Determination)
+    # R² = 1 - (SS_res / SS_tot)
     # where SS_res = sum((y - y_pred)^2)
     #       SS_tot = sum((y - y_mean)^2)
     ss_res = None  # REPLACE THIS
@@ -233,7 +233,7 @@ def compute_metrics(y_true, y_pred):
         'MSE': mse,
         'RMSE': rmse,
         'MAE': mae,
-        'R��': r2
+        'R²': r2
     }
 
 
@@ -363,7 +363,7 @@ def main():
     """Main application function."""
 
     # Title and description
-    st.title("���� Linear Regression with Gradient Descent")
+    st.title("☆ Linear Regression with Gradient Descent")
     st.markdown("""
     This app demonstrates linear regression using gradient descent.
 
@@ -380,7 +380,7 @@ def main():
     # SIDEBAR - Data Generation Parameters
     # ==========================================
 
-    st.sidebar.header("���� Data Generation")
+    st.sidebar.header("☆ Data Generation")
 
     n_samples = st.sidebar.slider(
         "Number of Samples",
@@ -415,7 +415,7 @@ def main():
     )
 
     # Generate data button
-    if st.sidebar.button("���� Generate Data", type="primary"):
+    if st.sidebar.button("☆ Generate Data", type="primary"):
         X, y, y_true = generate_synthetic_data(
             n_samples, noise_level, data_type, random_seed
         )
@@ -426,7 +426,7 @@ def main():
         st.session_state.y_true = y_true
         st.session_state.data_generated = True
 
-        st.sidebar.success("��� Data generated!")
+        st.sidebar.success("☆ Data generated!")
 
     st.sidebar.divider()
 
@@ -434,10 +434,10 @@ def main():
     # SIDEBAR - Model Parameters
     # ==========================================
 
-    st.sidebar.header("���� Model Parameters")
+    st.sidebar.header("☆ Model Parameters")
 
     learning_rate = st.sidebar.slider(
-        "Learning Rate (��)",
+        "Learning Rate (η)",
         min_value=0.0001,
         max_value=0.1,
         value=0.01,
@@ -461,7 +461,7 @@ def main():
 
     # Check if data has been generated
     if 'data_generated' not in st.session_state:
-        st.info("���� Start by generating data using the sidebar controls")
+        st.info("☆ Start by generating data using the sidebar controls")
         st.stop()
 
     # Get data from session state
@@ -481,7 +481,7 @@ def main():
     st.divider()
 
     # Train model button
-    if st.button("���� Train Model", type="primary"):
+    if st.button("☆ Train Model", type="primary"):
 
         with st.spinner("Training model... This may take a moment."):
 
@@ -506,11 +506,11 @@ def main():
             st.session_state.metrics = metrics
             st.session_state.model_trained = True
 
-        st.success("��� Model trained successfully!")
+        st.success("☆ Model trained successfully!")
 
     # Check if model has been trained
     if 'model_trained' not in st.session_state:
-        st.info("���� Click 'Train Model' to train the regression model")
+        st.info("☆ Click 'Train Model' to train the regression model")
         st.stop()
 
     # Get trained model and results
@@ -523,10 +523,10 @@ def main():
     # ==========================================
 
     tab1, tab2, tab3, tab4 = st.tabs([
-        "���� Training Progress",
-        "���� Predictions",
-        "���� Residuals",
-        "���� Metrics"
+        "☆ Training Progress",
+        "☆ Predictions",
+        "☆ Residuals",
+        "☆ Metrics"
     ])
 
     # Tab 1: Training Progress
@@ -600,18 +600,18 @@ def main():
                 help="Average absolute error. More robust to outliers."
             )
             st.metric(
-                "R�� Score",
-                f"{metrics['R��']:.4f}",
+                "R² Score",
+                f"{metrics['R²']:.4f}",
                 help="1 = perfect fit, 0 = no better than mean"
             )
 
         # Metric explanations
-        with st.expander("���� Understanding Metrics"):
+        with st.expander("☆ Understanding Metrics"):
             st.markdown("""
             **MSE (Mean Squared Error)**
             - Measures average squared difference between predictions and actual values
             - Penalizes large errors more heavily
-            - Formula: `MSE = (1/n) ��(y - ��)��`
+            - Formula: `MSE = (1/n) Σ(y - ŷ)²`
 
             **RMSE (Root Mean Squared Error)**
             - Square root of MSE
@@ -621,9 +621,9 @@ def main():
             **MAE (Mean Absolute Error)**
             - Average absolute difference
             - Less sensitive to outliers than MSE
-            - Formula: `MAE = (1/n) ��|y - ��|`
+            - Formula: `MAE = (1/n) Σ|y - ŷ|`
 
-            **R�� Score (Coefficient of Determination)**
+            **R² Score (Coefficient of Determination)**
             - Proportion of variance explained by the model
             - 1.0 = perfect predictions
             - 0.0 = predictions no better than the mean
@@ -636,7 +636,7 @@ def main():
     # DATA EXPORT
     # ==========================================
 
-    st.subheader("���� Export Results")
+    st.subheader("☆ Export Results")
 
     # Create results DataFrame
     results_df = pd.DataFrame({
@@ -649,7 +649,7 @@ def main():
     # Download button
     csv = results_df.to_csv(index=False)
     st.download_button(
-        label="���� Download Results (CSV)",
+        label="☆ Download Results (CSV)",
         data=csv,
         file_name="regression_results.csv",
         mime="text/csv"
