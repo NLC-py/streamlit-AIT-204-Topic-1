@@ -1,4 +1,5 @@
-egression Analysis App - Starter Code
+"""
+Regression Analysis App - Starter Code
 AIT-204 In-Class Activity
 
 This is a template for building a regression analysis application.
